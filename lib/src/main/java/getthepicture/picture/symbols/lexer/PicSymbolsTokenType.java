@@ -1,9 +1,9 @@
-package getthepicture.picture.lexer;
+package getthepicture.picture.symbols.lexer;
 
 /**
  * PICTURE clause token types.
  */
-public enum PictureTokenType {
+public enum PicSymbolsTokenType {
     UNKNOWN,
 
     // PICTURE clause symbols
