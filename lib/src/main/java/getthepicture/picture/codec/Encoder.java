@@ -3,6 +3,7 @@ package getthepicture.picture.codec;
 import java.util.Locale.Category;
 
 import getthepicture.picture.codec.category.alphabetic.AlphabeticEncoder;
+import getthepicture.picture.codec.category.alphanumeric.AlphanumericEncoder;
 import getthepicture.picture.codec.semantic.Constraint;
 import getthepicture.picture.codec.semantic.Rules;
 import getthepicture.picture.core.clause.items.PicClauseSemantic;
@@ -50,13 +51,13 @@ public class Encoder {
             //             "PIC " + pic.getRaw() + " expects Numeric value (number), but got string. Value: \"" + text + "\"");
             //     yield Category.Numeric.Encoder.encode(value, pic, options);
             // }
-            // case ALPHANUMERIC -> {
-            //     if (!(value instanceof String text))
-            //         throw new UnsupportedOperationException(
-            //             "PIC " + pic.getRaw() + " expects Alphanumeric value (string), but got " +
-            //             (value != null ? value.getClass().getSimpleName() : "null") + ".");
-            //     yield Category.Alphanumeric.Encoder.encode(text, pic);
-            // }
+            case ALPHANUMERIC -> {
+                if (!(value instanceof String text))
+                    throw new UnsupportedOperationException(
+                        "PIC " + pic.getRaw() + " expects Alphanumeric value (string), but got " +
+                        (value != null ? value.getClass().getSimpleName() : "null") + ".");
+                yield AlphanumericEncoder.encode(text, pic);
+            }
             case ALPHABETIC -> {
                 if (!(value instanceof String text))
                     throw new UnsupportedOperationException(
