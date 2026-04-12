@@ -5,6 +5,7 @@ import getthepicture.picture.codec.category.alphanumeric.AlphanumericDecoder;
 import getthepicture.picture.codec.category.numeric.NumericDecoder;
 import getthepicture.picture.codec.semantic.Constraint;
 import getthepicture.picture.codec.semantic.Rules;
+import getthepicture.picture.codec.semantic.bool.BooleanDecoder;
 import getthepicture.picture.core.clause.items.PicClauseSemantic;
 import getthepicture.picture.core.meta.PictureMeta;
 
@@ -33,7 +34,7 @@ public class Decoder {
             // case TIME6,
             //      TIME9        -> Semantic.Time.Decoder.decode(buffer, pic);
             // case TIMESTAMP14  -> Semantic.Timestamp.Decoder.decode(buffer, pic);
-            // case BOOLEAN      -> Semantic.Boolean.Decoder.decode(buffer, pic);
+            case BOOLEAN      -> BooleanDecoder.decode(buffer, pic);
             default           -> decodeBaseType(buffer, pic, options);
         };
     }

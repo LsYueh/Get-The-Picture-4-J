@@ -1,12 +1,11 @@
 package getthepicture.picture.codec;
 
-import java.util.Locale.Category;
-
 import getthepicture.picture.codec.category.alphabetic.AlphabeticEncoder;
 import getthepicture.picture.codec.category.alphanumeric.AlphanumericEncoder;
 import getthepicture.picture.codec.category.numeric.NumericEncoder;
 import getthepicture.picture.codec.semantic.Constraint;
 import getthepicture.picture.codec.semantic.Rules;
+import getthepicture.picture.codec.semantic.bool.BooleanEncoder;
 import getthepicture.picture.core.clause.items.PicClauseSemantic;
 import getthepicture.picture.core.meta.PictureMeta;
 
@@ -32,7 +31,7 @@ public class Encoder {
             // case TIME6,
             //      TIME9        -> Semantic.Time.Encoder.encode(value, pic);
             // case TIMESTAMP14  -> Semantic.Timestamp.Encoder.encode(value, pic);
-            // case BOOLEAN      -> Semantic.Boolean.Encoder.encode(value, pic);
+            case BOOLEAN      -> BooleanEncoder.encode(value, pic);
             default           -> encodeBaseType(value, pic, options);
         };
 
