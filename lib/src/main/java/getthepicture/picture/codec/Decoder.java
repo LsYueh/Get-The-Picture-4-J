@@ -6,6 +6,7 @@ import getthepicture.picture.codec.category.numeric.NumericDecoder;
 import getthepicture.picture.codec.semantic.Constraint;
 import getthepicture.picture.codec.semantic.Rules;
 import getthepicture.picture.codec.semantic.bool.BooleanDecoder;
+import getthepicture.picture.codec.semantic.date.DateDecoder;
 import getthepicture.picture.core.clause.items.PicClauseSemantic;
 import getthepicture.picture.core.meta.PictureMeta;
 
@@ -29,8 +30,8 @@ public class Decoder {
         }
 
         return switch (pic.getSemantic()) {
-            // case GREGORIAN_DATE,
-            //      MINGUO_DATE  -> Semantic.Date.Decoder.decode(buffer, pic);
+            case GREGORIAN_DATE,
+                 MINGUO_DATE  -> DateDecoder.decode(buffer, pic);
             // case TIME6,
             //      TIME9        -> Semantic.Time.Decoder.decode(buffer, pic);
             // case TIMESTAMP14  -> Semantic.Timestamp.Decoder.decode(buffer, pic);
