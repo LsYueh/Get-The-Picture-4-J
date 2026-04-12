@@ -2,6 +2,7 @@ package getthepicture.picture.codec;
 
 import getthepicture.picture.codec.category.alphabetic.AlphabeticDecoder;
 import getthepicture.picture.codec.category.alphanumeric.AlphanumericDecoder;
+import getthepicture.picture.codec.category.numeric.NumericDecoder;
 import getthepicture.picture.codec.semantic.Constraint;
 import getthepicture.picture.codec.semantic.Rules;
 import getthepicture.picture.core.clause.items.PicClauseSemantic;
@@ -39,7 +40,7 @@ public class Decoder {
 
     private static Object decodeBaseType(byte[] buffer, PictureMeta pic, CodecOptions options) {
         return switch (pic.getBaseClass()) {
-            // case NUMERIC      -> Category.Numeric.Decoder.decode(buffer, pic, options);
+            case NUMERIC      -> NumericDecoder.decode(buffer, pic, options);
             case ALPHANUMERIC -> AlphanumericDecoder.decode(buffer, pic);
             case ALPHABETIC   -> AlphabeticDecoder.decode(buffer, pic);
             default -> throw new UnsupportedOperationException(
