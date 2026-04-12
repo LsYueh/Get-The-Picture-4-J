@@ -1,4 +1,4 @@
-package getthepicture.picture.clause.Items;
+package getthepicture.picture.core.clause.items;
 
 /**
  * Class of elementary items.

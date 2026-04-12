@@ -1,4 +1,4 @@
-package getthepicture.picture.symbols.lexer;
+package getthepicture.picture.core.symbols.lexer;
 
 /**
  * PICTURE clause token types.

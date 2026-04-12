@@ -1,12 +1,12 @@
-package getthepicture.picture.symbols;
+package getthepicture.picture.core.symbols;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import getthepicture.picture.clause.Items.PicClauseBaseClass;
-import getthepicture.picture.symbols.parser.PicSymbolsMeta;
-import getthepicture.picture.symbols.parser.PicSymbolsParseException;
+import getthepicture.picture.core.clause.items.PicClauseBaseClass;
+import getthepicture.picture.core.symbols.parser.PicSymbolsMeta;
+import getthepicture.picture.core.symbols.parser.PicSymbolsParseException;
 
 import static org.junit.jupiter.api.Assertions.*;
 

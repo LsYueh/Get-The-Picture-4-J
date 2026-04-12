@@ -1,4 +1,4 @@
-package getthepicture.picture.symbols.lexer;
+package getthepicture.picture.core.symbols.lexer;
 
 /**
  * @param type     token type

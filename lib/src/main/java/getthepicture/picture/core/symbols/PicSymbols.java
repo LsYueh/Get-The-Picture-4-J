@@ -1,8 +1,8 @@
-package getthepicture.picture.symbols;
+package getthepicture.picture.core.symbols;
 
-import getthepicture.picture.symbols.lexer.PicSymbolsLexer;
-import getthepicture.picture.symbols.parser.PicSymbolsParser;
-import getthepicture.picture.symbols.parser.PicSymbolsMeta;
+import getthepicture.picture.core.symbols.lexer.PicSymbolsLexer;
+import getthepicture.picture.core.symbols.parser.PicSymbolsParser;
+import getthepicture.picture.core.symbols.parser.PicSymbolsMeta;
 
 public final class PicSymbols {
 

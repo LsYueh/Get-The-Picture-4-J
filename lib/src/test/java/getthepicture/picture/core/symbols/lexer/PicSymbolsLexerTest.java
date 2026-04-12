@@ -1,4 +1,4 @@
-package getthepicture.picture.symbols.lexer;
+package getthepicture.picture.core.symbols.lexer;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

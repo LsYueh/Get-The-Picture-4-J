@@ -1,11 +1,11 @@
-package getthepicture.picture.symbols.parser;
+package getthepicture.picture.core.symbols.parser;
 
 import java.util.List;
 import java.util.Objects;
 
-import getthepicture.picture.clause.Items.PicClauseBaseClass;
-import getthepicture.picture.symbols.lexer.PicSymbolsToken;
-import getthepicture.picture.symbols.lexer.PicSymbolsTokenType;
+import getthepicture.picture.core.clause.items.PicClauseBaseClass;
+import getthepicture.picture.core.symbols.lexer.PicSymbolsToken;
+import getthepicture.picture.core.symbols.lexer.PicSymbolsTokenType;
 
 public class PicSymbolsParser {
 

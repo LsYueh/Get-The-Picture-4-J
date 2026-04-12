@@ -1,6 +1,6 @@
-package getthepicture.picture.symbols.parser;
+package getthepicture.picture.core.symbols.parser;
 
-import getthepicture.picture.clause.Items.PicClauseBaseClass;
+import getthepicture.picture.core.clause.items.PicClauseBaseClass;
 
 public final class PicSymbolsMeta {
     private PicClauseBaseClass baseClass;
