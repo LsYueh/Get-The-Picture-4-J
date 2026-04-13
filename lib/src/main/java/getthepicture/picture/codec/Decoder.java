@@ -8,6 +8,7 @@ import getthepicture.picture.codec.semantic.Rules;
 import getthepicture.picture.codec.semantic.bool.BooleanDecoder;
 import getthepicture.picture.codec.semantic.date.DateDecoder;
 import getthepicture.picture.codec.semantic.time.TimeDecoder;
+import getthepicture.picture.codec.semantic.timestamp.TimestampDecoder;
 import getthepicture.picture.core.clause.items.PicClauseSemantic;
 import getthepicture.picture.core.meta.PictureMeta;
 
@@ -35,7 +36,7 @@ public class Decoder {
                  MINGUO_DATE  -> DateDecoder.decode(buffer, pic);
             case TIME6,
                  TIME9        -> TimeDecoder.decode(buffer, pic);
-            // case TIMESTAMP14  -> Semantic.Timestamp.Decoder.decode(buffer, pic);
+            case TIMESTAMP14  -> TimestampDecoder.decode(buffer, pic);
             case BOOLEAN      -> BooleanDecoder.decode(buffer, pic);
             default           -> decodeBaseType(buffer, pic, options);
         };
