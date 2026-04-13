@@ -1,5 +1,6 @@
 # Get The Picture
 
+[![CI](https://github.com/LsYueh/Get-The-Picture-4-J/actions/workflows/gradle.yml/badge.svg?branch=main)](https://github.com/LsYueh/Get-The-Picture-4-J/actions/workflows/gradle.yml)
 [![License](https://img.shields.io/github/license/LsYueh/Get-The-Picture-4-J)](/LICENSE)
 [![Java 17](https://img.shields.io/badge/Java-17-blue)](https://learn.microsoft.com/zh-tw/java/openjdk/download#openjdk-17)
 [![GitHub release](https://img.shields.io/github/v/release/LsYueh/Get-The-Picture-4-J)](https://github.com/LsYueh/Get-The-Picture-4-J/releases)
