@@ -1,6 +1,8 @@
 package getthepicture.picture.core.meta;
 
 import getthepicture.picture.core.clause.computational.COMP3;
+import getthepicture.picture.core.clause.computational.COMP5;
+import getthepicture.picture.core.clause.computational.COMP6;
 import getthepicture.picture.core.clause.items.PicClauseBaseClass;
 import getthepicture.picture.core.clause.items.PicClauseSemantic;
 import getthepicture.picture.core.clause.items.PicClauseUsage;
@@ -32,9 +34,9 @@ public class PictureMeta {
         return switch (usage) {
             case DISPLAY          -> getDigitCount();
             case PACKED_DECIMAL   -> COMP3.getByteLength(getDigitCount());
-            // case BINARY,
-            //      NATIVE_BINARY    -> COMP5.getByteLength(getDigitCount());
-            // case U_PACKED_DECIMAL -> COMP6.getByteLength(getDigitCount());
+            case BINARY,
+                 NATIVE_BINARY    -> COMP5.getByteLength(getDigitCount());
+            case U_PACKED_DECIMAL -> COMP6.getByteLength(getDigitCount());
             default -> throw new UnsupportedOperationException(
                 "Unsupported usage: " + usage);
         };

@@ -5,6 +5,9 @@ import java.math.BigDecimal;
 import getthepicture.picture.codec.CodecOptions;
 import getthepicture.picture.core.CbDecimal;
 import getthepicture.picture.core.clause.computational.COMP3;
+import getthepicture.picture.core.clause.computational.COMP4;
+import getthepicture.picture.core.clause.computational.COMP5;
+import getthepicture.picture.core.clause.computational.COMP6;
 import getthepicture.picture.core.clause.overpunch.OverpunchCodec;
 import getthepicture.picture.core.mapper.IntMapper;
 import getthepicture.picture.core.mapper.Mapper;
@@ -42,9 +45,9 @@ public class NumericDecoder {
         return switch (pic.getUsage()) {
             case DISPLAY          -> displayDecode(bytes, pic, options);
             case PACKED_DECIMAL   -> COMP3.decode(bytes, pic);
-            // case BINARY           -> COMP4.decode(bytes, pic);
-            // case NATIVE_BINARY    -> COMP5.decode(bytes, pic, options.isBigEndian());
-            // case U_PACKED_DECIMAL -> COMP6.decode(bytes, pic);
+            case BINARY           -> COMP4.decode(bytes, pic);
+            case NATIVE_BINARY    -> COMP5.decode(bytes, pic, options.isBigEndian());
+            case U_PACKED_DECIMAL -> COMP6.decode(bytes, pic);
             default -> throw new UnsupportedOperationException(
                 "Unsupported numeric storage: " + pic.getUsage());
         };

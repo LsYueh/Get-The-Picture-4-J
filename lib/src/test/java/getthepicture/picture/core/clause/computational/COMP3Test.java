@@ -3,213 +3,103 @@ package getthepicture.picture.core.clause.computational;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import getthepicture.picture.core.clause.items.PicClauseSemantic;
+import getthepicture.picture.PictureCodec;
 import getthepicture.picture.core.clause.items.PicClauseUsage;
-import getthepicture.picture.core.meta.NumericMeta;
 import getthepicture.picture.core.meta.PictureMeta;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.math.BigDecimal;
 import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class COMP3Test {
 
     // =========================================================================
-    // getByteLength
+    // Encode
     // =========================================================================
 
-    @ParameterizedTest(name = "getByteLength({0}) == {1}")
-    @CsvSource({
-        "1,  1",   // 1 digit + 1 sign = 2 nibbles -> 1 byte
-        "2,  2",   // 2 digit + 1 sign = 3 nibbles -> 2 bytes
-        "3,  2",   // 3 digit + 1 sign = 4 nibbles -> 2 bytes
-        "4,  3",
-        "5,  3",
-        "6,  4",
-        "7,  4",
-        "8,  5",
-        "9,  5",
-        "18, 10",
-        "19, 10",
-    })
-    void getByteLength_knownValues(int digitCount, int expected) {
-        assertEquals(expected, COMP3.getByteLength(digitCount));
-    }
-
-    @Test
-    void getByteLength_zero_throwsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> COMP3.getByteLength(0));
-    }
-
-    @Test
-    void getByteLength_negative_throwsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> COMP3.getByteLength(-1));
-    }
-
-    // =========================================================================
-    // encode / decode roundtrip
-    // =========================================================================
-
-    static Stream<Arguments> roundtripProvider() {
+    static Stream<Arguments> encodeProvider() {
         return Stream.of(
-            Arguments.of("S9(5)"   ,  12345),
-            Arguments.of("S9(5)"   , -12345),
-            Arguments.of("S9(5)"   ,      0),
-            Arguments.of( "9(5)"   ,      0),
-            Arguments.of( "9(5)"   ,  99999),
-            Arguments.of("S9(5)V99",   123L),
-            Arguments.of("S9(5)V99",  -123L),
-            Arguments.of("S9(5)"   ,      1),
-            Arguments.of("S9(5)"   ,     -1)
+            Arguments.of("9(5)",   52194,  new byte[]{ 0x52, 0x19, 0x4F }),
+            Arguments.of("S9(5)",  52194,  new byte[]{ 0x52, 0x19, 0x4C }),
+            Arguments.of("S9(5)", -52194,  new byte[]{ 0x52, 0x19, 0x4D }),
+            Arguments.of("9(18)",      1L, new byte[]{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1F }),
+            Arguments.of("S9(18)",     1L, new byte[]{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1C })
         );
     }
 
-    @ParameterizedTest(name = "roundtrip: PIC {0} - {1}")
-    @MethodSource("roundtripProvider")
-    void encodeDecode_roundtrip(String symbols, Object value) {
-        PictureMeta pic = buildPic(symbols);
-        
-        NumericMeta nMeta = NumericMeta.parse(value, pic);
-
-        byte[] encoded = COMP3.encode(nMeta, pic);
-        Object decoded = COMP3.decode(encoded, pic);
-
-        assertEquals(0, toBigDecimal(decoded).compareTo(toBigDecimal(value)));
-    }
-
-    // =========================================================================
-    // encode
-    // =========================================================================
-
-    @Test
-    void encode_positive_12345() {
-        // -12345 -> nibbles: 1|2|3|4|5|D -> bytes: 0x12 0x34 0x5D
-        PictureMeta pic = buildPic("S9(5)");
-        NumericMeta nMeta = NumericMeta.parse(12345L, pic);
-        byte[] result = COMP3.encode(nMeta, pic);
-
-        assertArrayEquals(new byte[]{ 0x12, 0x34, 0x5C }, result);
+    @ParameterizedTest(name = "encode: pic={0}, value={1}")
+    @MethodSource("encodeProvider")
+    void encode_combination(String picString, Object value, byte[] expected) {
+        PictureMeta pic = PictureMeta.parse(picString);
+        byte[] result = PictureCodec.forMeta(pic)
+            .usage(PicClauseUsage.PACKED_DECIMAL)
+            .withStrict()
+            .encode(value);
+        assertArrayEquals(expected, result);
     }
 
     @Test
-    void encode_negative_12345() {
-        // -12345 -> nibbles: 1|2|3|4|5|D -> bytes: 0x12 0x34 0x5D
-        PictureMeta pic = buildPic("S9(5)");
-        NumericMeta nMeta = NumericMeta.parse(-12345L, pic);
-        byte[] result = COMP3.encode(nMeta, pic);
-
-        assertArrayEquals(new byte[]{ 0x12, 0x34, 0x5D }, result);
-    }
-
-    @Test
-    void encode_zero_positive() {
-        PictureMeta pic = buildPic("S9(5)");
-        NumericMeta nMeta = NumericMeta.parse(0L, pic);
-        byte[] result = COMP3.encode(nMeta, pic);
-
-        assertArrayEquals(new byte[]{ 0x00, 0x00, 0x0C }, result);
-    }
-
-    @Test
-    void encode_unsigned_usesUnsignedNibble() {
-        PictureMeta pic = buildPic("9(5)");
-        NumericMeta nMeta = NumericMeta.parse(12345L, pic);
-        byte[] result = COMP3.encode(nMeta, pic);
-
-        // sign nibble = 0xF
-        assertArrayEquals(new byte[]{ 0x12, 0x34, 0x5F }, result);
-    }
-
-    @Test
-    void encode_unsignedNegative_throwsIllegalStateException() {
-        PictureMeta pic = buildPic("9(5)");
-        NumericMeta nMeta = new NumericMeta("12345".getBytes(), 0, true);
-        assertThrows(IllegalStateException.class, () -> COMP3.encode(nMeta, pic));
-    }
-
-    // =========================================================================
-    // decode
-    // =========================================================================
-
-    @Test
-    void decode_positive_12345() {
-        // 0x12 0x34 0x5C -> +12345
-        byte[] buffer = new byte[]{ 0x12, 0x34, 0x5C };
-        PictureMeta pic = buildPic("S9(5)");
-        Object result = COMP3.decode(buffer, pic);
-
-        assertEquals(12345, result);
-    }
-
-    @Test
-    void decode_negative_12345() {
-        // 0x12 0x34 0x5D -> -12345
-        byte[] buffer = new byte[]{ 0x12, 0x34, 0x5D };
-        PictureMeta pic = buildPic("S9(5)");
-        Object result = COMP3.decode(buffer, pic);
-
-        assertEquals(-12345, result);
-    }
-
-    @Test
-    void decode_unsigned_12345() {
-        // 0x12 0x34 0x5F -> 12345 (unsigned)
-        byte[] buffer = new byte[]{ 0x12, 0x34, 0x5F };
-        PictureMeta pic = buildPic("9(5)");
-        Object result = COMP3.decode(buffer, pic);
-
-        assertEquals(12345, result);
-    }
-
-    @Test
-    void decode_invalidSignNibble_throwsIllegalArgumentException() {
-        // sign nibble = 0xA (invalid)
-        byte[] buffer = new byte[]{ 0x12, 0x34, 0x5A };
-        PictureMeta pic = buildPic("S9(5)");
-        assertThrows(IllegalArgumentException.class, () -> COMP3.decode(buffer, pic));
-    }
-
-    @Test
-    void decode_unsignedFieldWithNegativeSign_throwsArithmeticException() {
-        // sign nibble = 0xD (negative) but pic is unsigned
-        byte[] buffer = new byte[]{ 0x12, 0x34, 0x5D };
-        PictureMeta pic = buildPic("9(5)");
-        assertThrows(ArithmeticException.class, () -> COMP3.decode(buffer, pic));
-    }
-
-    @Test
-    void decode_withDecimalDigits() {
-        // 0x12 0x34 0x5C -> +12345, decimalDigits=2 -> 123.45
-        byte[] buffer = new byte[]{ 0x12, 0x34, 0x5C };
-        PictureMeta pic = buildPic("S9(3)V99");
-        Object result = COMP3.decode(buffer, pic);
-
-        assertEquals(0, ((BigDecimal) result).compareTo(new BigDecimal("123.45")));
-    }
-
-    // =========================================================================
-    // Helpers
-    // =========================================================================
-
-    private static PictureMeta buildPic(String symbols) {
-        PictureMeta pic = PictureMeta.parse(symbols);
-
-        pic.setSemantic(PicClauseSemantic.NONE);
+    void encode_withSignLesser() {
+        // 高位截斷：-52194 塞入 S9(3)，保留後 3 位 194，sign=D -> 0x19 0x4D
+        PictureMeta pic = PictureMeta.parse("S9(3)");
         pic.setUsage(PicClauseUsage.PACKED_DECIMAL);
-        
-        return pic;
+        byte[] result = PictureCodec.forMeta(pic).encode(-52194);
+        assertArrayEquals(new byte[]{ 0x19, 0x4D }, result);
     }
 
-    private static BigDecimal toBigDecimal(Object obj) {
-        if (obj instanceof BigDecimal bd) return bd;
-        if (obj instanceof Long l)        return BigDecimal.valueOf(l);
-        if (obj instanceof Integer i)     return BigDecimal.valueOf(i);
-        if (obj instanceof Short s)       return BigDecimal.valueOf(s);
-        if (obj instanceof Byte b)        return BigDecimal.valueOf(b);
-        throw new IllegalArgumentException("Unexpected type: " + obj.getClass());
+    // =========================================================================
+    // Decode
+    // =========================================================================
+
+    static Stream<Arguments> decodeProvider() {
+        return Stream.of(
+            // 9(5) unsigned -> sign C or F 都視為正，digits<=9 -> int
+            Arguments.of("9(5)",   52194,  new byte[]{ 0x52, 0x19, 0x4F }),
+            Arguments.of("9(5)",   52194,  new byte[]{ 0x52, 0x19, 0x4C }),
+            // 9(10) unsigned, digits<=18 -> long
+            Arguments.of("9(10)",      1L, new byte[]{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x1F }),
+            // S9(05) signed, digits<=9 -> int
+            Arguments.of("S9(05)",  52194, new byte[]{ 0x52, 0x19, 0x4C }),
+            Arguments.of("S9(05)", -52194, new byte[]{ 0x52, 0x19, 0x4D }),
+            // 9(18) / S9(18), digits<=18 -> long
+            Arguments.of("9(18)",      1L, new byte[]{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1F }),
+            Arguments.of("S9(18)",     1L, new byte[]{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1C })
+        );
+    }
+
+    @ParameterizedTest(name = "decode: pic={0}, expected={1}")
+    @MethodSource("decodeProvider")
+    void decode_combination(String picString, Object expected, byte[] buffer) {
+        PictureMeta pic = PictureMeta.parse(picString);
+        Object result = PictureCodec.forMeta(pic)
+            .usage(PicClauseUsage.PACKED_DECIMAL)
+            .withStrict()
+            .decode(buffer);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void decode_withSignLesser() {
+        // S9(3) decode [0x52, 0x19, 0x4D]
+        // digits=3，取後 3 nibbles: 1|9|4 + sign D -> -194
+        // digits<=4 -> short
+        PictureMeta pic = PictureMeta.parse("S9(3)");
+        pic.setUsage(PicClauseUsage.PACKED_DECIMAL);
+        Object result = PictureCodec.forMeta(pic).decode(new byte[]{ 0x52, 0x19, 0x4D });
+        assertEquals((short) -194, result);
+    }
+
+    // =========================================================================
+    // Exceptions
+    // =========================================================================
+
+    @Test
+    void decode_withoutSign_negative_throwsArithmeticException() {
+        PictureMeta pic = PictureMeta.parse("9(5)");
+        pic.setUsage(PicClauseUsage.PACKED_DECIMAL);
+        assertThrows(ArithmeticException.class,
+            () -> PictureCodec.forMeta(pic).decode(new byte[]{ 0x52, 0x19, 0x4D }));
     }
 }

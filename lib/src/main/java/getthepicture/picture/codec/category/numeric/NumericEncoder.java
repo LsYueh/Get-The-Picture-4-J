@@ -2,6 +2,9 @@ package getthepicture.picture.codec.category.numeric;
 
 import getthepicture.picture.codec.CodecOptions;
 import getthepicture.picture.core.clause.computational.COMP3;
+import getthepicture.picture.core.clause.computational.COMP4;
+import getthepicture.picture.core.clause.computational.COMP5;
+import getthepicture.picture.core.clause.computational.COMP6;
 import getthepicture.picture.core.clause.overpunch.OverpunchCodec;
 import getthepicture.picture.core.meta.NumericMeta;
 import getthepicture.picture.core.meta.PictureMeta;
@@ -34,9 +37,9 @@ public class NumericEncoder {
         byte[] buffer = switch (pic.getUsage()) {
             case DISPLAY          -> displayEncode(nMeta, pic, options);
             case PACKED_DECIMAL   -> COMP3.encode(nMeta, pic);
-            // case BINARY           -> COMP4.encode(nMeta, pic);
-            // case NATIVE_BINARY    -> COMP5.encode(nMeta, pic, options.isBigEndian());
-            // case U_PACKED_DECIMAL -> COMP6.encode(nMeta, pic);
+            case BINARY           -> COMP4.encode(nMeta, pic);
+            case NATIVE_BINARY    -> COMP5.encode(nMeta, pic, options.isBigEndian());
+            case U_PACKED_DECIMAL -> COMP6.encode(nMeta, pic);
             default -> throw new UnsupportedOperationException(
                 "Unsupported numeric storage: " + pic.getUsage());
         };
