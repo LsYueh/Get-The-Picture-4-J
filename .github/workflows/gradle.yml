@@ -1,0 +1,35 @@
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: [ '17', '21' ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: 'temurin'
+
+      - uses: gradle/actions/setup-gradle@v4
+        
+      - run: ./gradlew test
+
+      # - name: Upload test report
+      #   uses: actions/upload-artifact@v4
+      #   if: always()   # 即使測試失敗也上傳報告
+      #   with:
+      #     name: test-report
+      #     path: build/reports/tests/test/
+      #     retention-days: 7
