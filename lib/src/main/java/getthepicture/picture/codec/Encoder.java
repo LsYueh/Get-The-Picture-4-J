@@ -7,6 +7,7 @@ import getthepicture.picture.codec.semantic.Constraint;
 import getthepicture.picture.codec.semantic.Rules;
 import getthepicture.picture.codec.semantic.bool.BooleanEncoder;
 import getthepicture.picture.codec.semantic.date.DateEncoder;
+import getthepicture.picture.codec.semantic.time.TimeEncoder;
 import getthepicture.picture.core.clause.items.PicClauseSemantic;
 import getthepicture.picture.core.meta.PictureMeta;
 
@@ -29,8 +30,8 @@ public class Encoder {
         byte[] normalized = switch (pic.getSemantic()) {
             case GREGORIAN_DATE,
                  MINGUO_DATE  -> DateEncoder.encode(value, pic);
-            // case TIME6,
-            //      TIME9        -> Semantic.Time.Encoder.encode(value, pic);
+            case TIME6,
+                 TIME9        -> TimeEncoder.encode(value, pic);
             // case TIMESTAMP14  -> Semantic.Timestamp.Encoder.encode(value, pic);
             case BOOLEAN      -> BooleanEncoder.encode(value, pic);
             default           -> encodeBaseType(value, pic, options);
