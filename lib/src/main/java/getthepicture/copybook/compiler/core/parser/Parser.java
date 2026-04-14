@@ -72,9 +72,11 @@ public class Parser {
      */
     public CbLayout analyze() {
         CbLayout root = new CbLayout();
+
         while (current() != null) {
             parseDataItem(root, 0);
         }
+        
         return root;
     }
 

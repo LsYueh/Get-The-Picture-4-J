@@ -190,9 +190,9 @@ class ParserTest {
         }
 
         String result = sw.toString();
-        System.out.println("=== dump result ===");
-        System.out.println(result);
-        System.out.println("===================");
+        // System.out.println("=== dump result ===");
+        // System.out.println(result);
+        // System.out.println("===================");
 
         assertTrue(result.contains(
             "05 FILLER >> PIC: [9(10)] Class='NUMERIC' (Semantic='NONE'), Signed=false, Int=10, Dec=0, Len=10, Usage='DISPLAY' VALUE: \"0\""));
