@@ -31,8 +31,8 @@ public final class ElementaryDataItem extends AbstractDataItem {
     }
 
     public PictureMeta  getPic()      { return pic;      }
-    public boolean  isFiller()    { return isFiller; }
-    public String   getValue()    { return value;    }
+    public boolean      isFiller()    { return isFiller; }
+    public String       getValue()    { return value;    }
 
     // ----------------------------
     // Level 88 Condition-name
@@ -46,7 +46,7 @@ public final class ElementaryDataItem extends AbstractDataItem {
         return Collections.unmodifiableList(conditions);
     }
 
-    void addCondition(Condition88Item condition) {
+    public void addCondition(Condition88Item condition) {
         conditions.add(condition);
     }
 
