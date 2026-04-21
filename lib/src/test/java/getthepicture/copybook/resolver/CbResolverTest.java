@@ -14,7 +14,7 @@ import java.nio.charset.Charset;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CbResolverTest {
+class CbResolverTest {
 
     private static final Charset cp950 = EncodingFactory.getCP950();
 
