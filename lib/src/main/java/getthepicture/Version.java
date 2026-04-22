@@ -22,12 +22,4 @@ public final class Version {
         String v = PACKAGE != null ? PACKAGE.getSpecificationVersion() : null;
         return v != null ? v : "0.0.0.0";
     }
-
-    /**
-     * Assembly version (usually fixed)
-     */
-    public static String getAssembly() {
-        String v = PACKAGE != null ? PACKAGE.getImplementationVersion() : null;
-        return v != null ? v : "0.0.0.0";
-    }
 }

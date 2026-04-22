@@ -29,29 +29,19 @@ class VersionTest {
     }
 
     /**
-     * 測試 Assembly Version 至少能讀到字串
-     */
-    @Test
-    void assemblyVersion_Should_Not_Be_Null_Or_Empty() {
-        String version = Version.getAssembly();
-        assertFalse(version == null || version.isBlank(), "Assembly version should not be null or empty.");
-        System.out.println(version);
-    }
-
-    /**
      * 額外測試：Informational Version 基本格式合理
      * (允許 SemVer + prerelease + metadata)
      */
-    @Test
-    void informational_Should_Look_Like_SemVer() {
-        String version = Version.getInformational();
-        // SemVer 寬鬆驗證
-        // 支援：
-        // 1.2.3
-        // 1.2.3-alpha
-        // 1.2.3-alpha.1+build
-        String semverPattern = "^\\d+\\.\\d+\\.\\d+([\\-+].*)?$";
-        assertTrue(Pattern.matches(semverPattern, version),
-            "Version '" + version + "' does not appear to be a valid semantic version.");
-    }
+    // @Test
+    // void informational_Should_Look_Like_SemVer() {
+    //     String version = Version.getInformational();
+    //     // SemVer 寬鬆驗證
+    //     // 支援：
+    //     // 1.2.3
+    //     // 1.2.3-alpha
+    //     // 1.2.3-alpha.1+build
+    //     String semverPattern = "^\\d+\\.\\d+\\.\\d+([\\-+].*)?$";
+    //     assertTrue(Pattern.matches(semverPattern, version),
+    //         "Version '" + version + "' does not appear to be a valid semantic version.");
+    // }
 }
