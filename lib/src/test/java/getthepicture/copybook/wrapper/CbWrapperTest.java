@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CbWrapperTest {
+class CbWrapperTest {
 
     private static final Charset CP950 = Charset.forName("MS950");
 
