@@ -1,7 +1,7 @@
 package getthepicture;
 
 import org.junit.jupiter.api.Test;
-import java.util.regex.Pattern;
+// import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +15,7 @@ class VersionTest {
     void informational_Should_Not_Be_Null_Or_Empty() {
         String version = Version.getInformational();
         assertFalse(version == null || version.isBlank(), "Informational version should not be null or empty.");
-        System.out.println(version);
+        // System.out.println(version);
     }
 
     /**
@@ -25,7 +25,7 @@ class VersionTest {
     void fileVersion_Should_Not_Be_Null_Or_Empty() {
         String version = Version.getFile();
         assertFalse(version == null || version.isBlank(), "File version should not be null or empty.");
-        System.out.println(version);
+        // System.out.println(version);
     }
 
     /**
