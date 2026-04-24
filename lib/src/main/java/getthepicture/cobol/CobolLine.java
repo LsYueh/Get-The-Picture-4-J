@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import getthepicture.cobol.core.Area;
+import getthepicture.cobol.core.AreaT;
 import getthepicture.cobol.core.CodingSheet;
 
 public class CobolLine implements CodingSheet {
@@ -44,7 +44,7 @@ public class CobolLine implements CodingSheet {
     private boolean ignored = false;
 
     /** Area A / Area B */
-    private Area area = Area.NONE;
+    private AreaT area = AreaT.NONE;
 
     private CobolLine(int lineNumber, String rawText) {
         this.lineNumber = lineNumber;
@@ -66,7 +66,7 @@ public class CobolLine implements CodingSheet {
     public void    setLineNumber(int lineNumber) { this.lineNumber = lineNumber; }
     public boolean isIgnored()     { return ignored;    }
     public void    setIgnored(boolean ignored)   { this.ignored = ignored; }
-    public Area    getArea()       { return area;       }
+    public AreaT    getArea()       { return area;       }
 
     /** AreaA + AreaB */
     public String getText() { return areaA + areaB; }
@@ -153,14 +153,14 @@ public class CobolLine implements CodingSheet {
     private void classifyArea() {
         if (!areaA.isBlank()) {
             validateLevelIfNumeric(areaA);
-            area = Area.A;
+            area = AreaT.A;
             return;
         }
         if (!areaB.isBlank()) {
-            area = Area.B;
+            area = AreaT.B;
             return;
         }
-        area = Area.FREE;
+        area = AreaT.FREE;
     }
 
     private void validateLevelIfNumeric(String areaA) {

@@ -2,7 +2,7 @@ package getthepicture.cobol;
 
 import org.junit.jupiter.api.Test;
 
-import getthepicture.cobol.core.Area;
+import getthepicture.cobol.core.AreaT;
 import getthepicture.picture.utils.EncodingFactory;
 
 import java.io.*;
@@ -24,10 +24,10 @@ class CobolLineTest {
             assertEquals(12, lines.size());
 
             assertEquals("01 CUSTOMER-RECORD.", lines.get(0).getText());
-            assertEquals(Area.A, lines.get(0).getArea());
+            assertEquals(AreaT.A, lines.get(0).getArea());
 
             assertEquals("        'NEEDS TO BE CONTINUED ACROSS MULTIPLE LINES'.", lines.get(lines.size() - 1).getText());
-            assertEquals(Area.B, lines.get(lines.size() - 1).getArea());
+            assertEquals(AreaT.B, lines.get(lines.size() - 1).getArea());
         }
     }
 }

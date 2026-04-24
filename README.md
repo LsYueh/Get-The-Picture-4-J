@@ -5,7 +5,7 @@
 [![Java 17](https://img.shields.io/badge/Java-17-blue)](https://learn.microsoft.com/zh-tw/java/openjdk/download#openjdk-17)
 [![GitHub release](https://img.shields.io/github/v/release/LsYueh/Get-The-Picture-4-J)](https://github.com/LsYueh/Get-The-Picture-4-J/releases)
 
-Java library for working with COBOL Copybook–based data  
+A Java library for working with COBOL Copybook–based data  
 用於處理以 COBOL Copybook 為基礎資料的 Java 類別庫  
 
 > **用 Java 讀懂你 COBOL 的明白**  
