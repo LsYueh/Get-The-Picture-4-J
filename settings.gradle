@@ -12,3 +12,4 @@ plugins {
 
 rootProject.name = 'get-the-picture-4-j'
 include('lib')
+include('cli')
