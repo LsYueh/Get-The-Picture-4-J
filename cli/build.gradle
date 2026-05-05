@@ -8,13 +8,11 @@ repositories {
 }
 
 dependencies {
-    // Use JUnit Jupiter for testing.
-    testImplementation libs.junit.jupiter
-
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation libs.guava
+
+    implementation 'info.picocli:picocli:4.7.7'
+    annotationProcessor 'info.picocli:picocli-codegen:4.7.7'
 
     implementation project(':lib')
 }
@@ -27,5 +25,5 @@ java {
 }
 
 application {
-    mainClass = 'com.example.cli.Main' 
+    mainClass = 'io.github.lsyueh.getthepicture.cli.Forge' 
 }
